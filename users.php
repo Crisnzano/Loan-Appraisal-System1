@@ -50,7 +50,7 @@
 								    <span class="sr-only">Toggle Dropdown</span>
 								  </button>
 								  <div class="dropdown-menu">
-								    <a class="dropdown-item edit_user" href="edit3.php?GetID = <?php echo $row['roleID'] ?>">Edit</a>
+								    <a class="dropdown-item edit_user" name="edit_user"<?php echo $row['roleID'] ?>">Edit</a>
 								    <div class="dropdown-divider"></div>
 								    <a class="dropdown-item delete_user" href="delete3.php?Del= <?php echo $row['roleID'] ?>">Delete</a>
 								  </div>
