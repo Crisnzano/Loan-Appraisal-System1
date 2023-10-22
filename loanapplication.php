@@ -18,22 +18,55 @@ foreach($qry->fetch_array() as $k => $v){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Loan Application Form</title>
 	<link rel="stylesheet" href="manage_borrower.css">
+  <style>
+    .error {color: #FF0000;}
+  </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="title">
 	<?php 
-                    if(isset($_SESSION['status']))
-                    {
-                        ?>
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Hey!</strong> <?php echo $_SESSION['status']; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <?php
-                        unset($_SESSION['status']);
-                    }
+  $nameErr = $amountErr = $repaymentErr = "";
+  $payee = $loan_amount = $repayment_amount = "";
+
+
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(empty($_POST["payee"])){
+      $nameErr = "Please enter a valid name";
+    }
+    else{
+      $name = test_input($_POST["payee"]);
+      if(! preg_match("/^[a-zA-Z-']*$/", $payee)) {
+        $nameErr = "Only letters and white spaces allowed";
+      }
+    }
+  if(empty($_POST["loan_amount"])){
+    $amountErr = "Valid Application Amount";
+  }
+  else{
+    $amountErr = test_input($_POST["loan_amount"]);
+    if(! preg_match("/^[0-9']*$/", $loan_amount)) {
+      $amountErr = "Please input a valid application amount ";
+    }
+  }
+  if(empty($_POST["repayment_amount"])){
+    $repaymentErr = "Valid Repayment Amount";
+  }
+  else{
+    $repaymentErr = test_input($_POST["repayment_amount"]);
+    if(! preg_match("/^[0-9']*$/", $repayment_amount)) {
+      $repaymentErr = "Please input a valid repayment amount ";
+    }
+  }
+}
+
+  function test_input($data){
+    $data = trim($data);
+    $data = stripcslashes($data);
+    return $data;
+  }
+
                 ?>
       Loan Application Form
     </div>
@@ -42,10 +75,12 @@ foreach($qry->fetch_array() as $k => $v){
     <div class="inputfield">
           <label>Client Name</label>
           <input type="text" class="input" name="payee" placeholder="Client Name">
+          <span class="error">* <?php echo $nameErr; ?></span>
        </div> 
          <div class="inputfield">
           <label>Loan Amount</label>
           <input type="number" class="input" name="loan_amount" placeholder="Amount in Ksh">
+          <span class="error">* <?php echo $amountErr; ?></span>
        </div> 
       <div class="inputfield">
           <label>Purpose</label>
@@ -91,6 +126,7 @@ foreach($qry->fetch_array() as $k => $v){
 	   <div class="inputfield">
           <label>Repayment Amount</label>
           <input type="number" class="input" name="repayment_amount" placeholder="Repayment Amount">
+          <span class="error">* <?php echo $repaymentErr; ?></span>
        </div>
        <div>
        		<a href="calculation_table2.php"><button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button></a>

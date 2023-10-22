@@ -23,6 +23,11 @@
         }
         function getClientID(){
         } 
+        function test_input($data){
+            $data = trim($data);
+            $data = stripcslashes($data);
+            return $data;
+          }
        
        
     
@@ -36,10 +41,18 @@
         $loanID = generateKey3();
         $payee = htmlspecialchars($_POST['payee']);
         $repaymentamnt = htmlspecialchars($_POST['repayment_amount']);
-        
-        if(empty($amount)){
-            header("location:loanapplication.php");
-        }
+
+        $nameErr = $amountErr = $repaymentErr = "";
+
+        if(empty($payee)){
+            $nameErr = "Please enter a valid name";
+          }
+          else{
+            $name = test_input($_POST["payee"]);
+            if(! preg_match("/^[a-zA-Z-']*$/", $payee)) {
+              $nameErr = "Only letters and white spaces allowed";
+            }
+          }
 
         if(empty($payee)){
             
