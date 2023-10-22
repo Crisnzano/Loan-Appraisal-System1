@@ -41,15 +41,15 @@ foreach($qry->fetch_array() as $k => $v){
     <div class="form">
     <div class="inputfield">
           <label>Client Name</label>
-          <input type="text" class="input" name="payee">
+          <input type="text" class="input" name="payee" placeholder="Client Name">
        </div> 
          <div class="inputfield">
           <label>Loan Amount</label>
-          <input type="number" class="input" name="loan_amount">
+          <input type="number" class="input" name="loan_amount" placeholder="Amount in Ksh">
        </div> 
       <div class="inputfield">
           <label>Purpose</label>
-          <textarea type="text" class="input" name="purpose"></textarea>
+          <textarea type="text" class="input" name="purpose" placeholder="Loan Purpose"></textarea>
        </div> 
        <div class="inputfield">
           <label>Loan Type</label>
@@ -90,7 +90,7 @@ foreach($qry->fetch_array() as $k => $v){
        </div> 
 	   <div class="inputfield">
           <label>Repayment Amount</label>
-          <input type="number" class="input" name="repayment_amount">
+          <input type="number" class="input" name="repayment_amount" placeholder="Repayment Amount">
        </div>
        <div>
        		<a href="calculation_table2.php"><button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button></a>
@@ -124,6 +124,7 @@ foreach($qry->fetch_array() as $k => $v){
 </div>
 
 <script>
+  
 	
 	$('.select2').select2({
 		placeholder:"Please select here",

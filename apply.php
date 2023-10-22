@@ -26,28 +26,46 @@
        
        
     
-        $loantype= $_POST['loan_type'];
-        $plan = $_POST['loan_plan'];
-        $amount = $_POST['loan_amount'];
-        $purpose= $_POST['purpose'];
+        $loantype= htmlspecialchars($_POST['loan_type']);
+        $plan = htmlspecialchars($_POST['loan_plan']);
+        $amount = htmlspecialchars($_POST['loan_amount']);
+        $purpose= htmlspecialchars($_POST['purpose']);
         $refno= generateKey();
-        $clientID = generateKey3();
+        $clientID = generateKey2();
         $status=0;
         $loanID = generateKey3();
-        $payee = $_POST['payee'];
-        $repaymentamnt = $_POST['repayment_amount'];
-       
+        $payee = htmlspecialchars($_POST['payee']);
+        $repaymentamnt = htmlspecialchars($_POST['repayment_amount']);
+        
+        if(empty($amount)){
+            header("location:loanapplication.php");
+        }
+
+        if(empty($payee)){
+            
+            header("location:loanapplication.php");
+            
+        }
+        if(empty($purpose)){
+          
+            header("location:loanapplication.php");
+            
+        }
+        if(empty($repaymentamnt)){
+          
+            header("location:loanapplication.php");
+            
+        }
 
 
-
-    $sql = "INSERT INTO loans ( clientID, purpose, loan_type_id, ref_number, loan_amount, planID, loan_status, loan_ID) VALUES ('$clientID','$purpose','$loantype','$refno', '$amount', '$plan','$status','$loanID')";
+    $sql = "INSERT INTO loans ( clientID, purpose, loan_type_id, ref_number, loan_amount, planID, loan_status, loanID) VALUES ('$clientID','$purpose','$loantype','$refno', '$amount', '$plan','$status','$loanID')";
     $query=mysqli_query($conn,$sql);
 
     if($query){
         $sql2 ="INSERT INTO loan_repayment (loanID,payee,monthly_repayment_amount) Values ('$loanID','$payee','$repaymentamnt')";
         $result=mysqli_query($conn,$sql2);
       
-        $_SESSION['status'] = "Data Updated Successfully ,your reference number is $refno";
+        $_SESSION['status'] = "Data Updated Successfully ,your reference number is "; echo $refno;
         header("Location: loanapplication.php?application=success");
         
 
