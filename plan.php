@@ -44,7 +44,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
-								<button class="btn btn-sm btn-default col-sm-3 " type="button" onclick="_reset()"> Cancel</button>
+								<button class="btn" type="button" onclick="_reset()">Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -90,8 +90,8 @@
 										 <p><small>Over dure Penalty: <b><?php echo $row['penalty_rate']."%" ?></b></small></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_plan" type="button" data-id="<?php echo $row['planID'] ?>" data-months="<?php echo $row['loan_tenure'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" >Edit</button>
-										<button class="btn btn-sm btn-danger delete_plan" type="button" data-id="<?php echo $row['planID'] ?>">Delete</button>
+										<button class="btn btn-sm btn-primary edit_plan" type="button" name="edit_plan" data-id="<?php echo $row['planID'] ?>" data-months="<?php echo $row['loan_tenure'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-danger delete_plan" type="button" name="delete_plan" data-id="<?php echo $row['planID'] ?>">Delete</button>
 									</td>
 								</tr>
 								<?php endwhile; ?>

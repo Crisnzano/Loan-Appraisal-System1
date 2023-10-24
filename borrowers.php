@@ -51,8 +51,8 @@
 						 	<td class="">None</td>
 						 	<td class="">N/A</td>
 						 	<td class="text-center">
-						 			<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" data-id="<?php echo $row['clientID'] ?>"><i class="fa fa-edit"></i></button>
-						 			<button class="btn btn-outline-danger btn-sm delete_borrower" type="button" data-id="<?php echo $row['clientID'] ?>"><i class="fa fa-trash"></i></button>
+						 			<button class="btn btn-outline-primary btn-sm edit_borrower" type="button" name="edit_borrower" data-id="<?php echo $row['clientID'] ?>"><i class="fa fa-edit"></i></button>
+						 			<button class="btn btn-outline-danger btn-sm delete_borrower" type="button" name="delete_borrower" data-id="<?php echo $row['clientID'] ?>"><i class="fa fa-trash"></i></button>
 						 	</td>
 
 						 </tr>
@@ -82,7 +82,7 @@
 		uni_modal("New borrower","manage_borrower1.php",'mid-large')
 	})
 	$('.edit_borrower').click(function(){
-		uni_modal("Edit borrower","manage_borrower.php?id="+$(this).attr('data-id'),'mid-large')
+		uni_modal("Edit borrower","register.php?id="+$(this).attr('data-id'),'mid-large')
 	})
 	$('.delete_borrower').click(function(){
 		_conf("Are you sure to delete this borrower?","delete_borrower",[$(this).attr('data-id')])

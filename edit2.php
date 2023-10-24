@@ -28,7 +28,7 @@
 
                 <div class="card mt-5">
                     <div class="card-header">
-                        <h4>Staff Update Form</h4>
+                        <h4>Admin Update Form</h4>
                     </div>
                     <div class="card-body">
 

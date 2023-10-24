@@ -30,7 +30,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
-								<button class="btn btn-sm btn-default col-sm-3" type="button" onclick="_reset()"> Cancel</button>
+								<button class="btn" type="button" onclick="_reset()"> Cancel</button>
 							</div>
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 										 <p><small>Description: <b><?php echo $row['description'] ?></b></small></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_ltype" type="button" data-id="<?php echo $row['loan_typeID'] ?>" data-type_name="<?php echo $row['type_name'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-primary edit_ltype" type="button" name=".edit_ltype" data-id="<?php echo $row['loan_typeID'] ?>" data-type_name="<?php echo $row['type_name'] ?>" data-description="<?php echo $row['description'] ?>" >Edit</button>
 										<button class="btn btn-sm btn-danger delete_ltype" type="button" name="delete_ltype" data-id="<?php echo $row['loan_typeID'] ?>">Delete</button>
 									</td>
 								</tr>

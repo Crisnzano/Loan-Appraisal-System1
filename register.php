@@ -3,9 +3,6 @@
 
 if(isset($_GET['id'])){
 	$qry = $conn->query("SELECT * FROM roles where roleID=".$_GET['id']);
-	foreach($qry->fetch_array() as $k => $val){
-		$$k = $val;
-	}
 }
 
 ?>
@@ -14,14 +11,14 @@ if(isset($_GET['id'])){
 <head>
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Registration Form</title>
+	<title>Edit Borrower Form</title>
 	<link rel="stylesheet" href="manage_borrower.css">
 </head>
 <body>
 
 <div class="wrapper">
     <div class="title">
-      Registration Form
+      Edit Borrower Form
     </div>
     <form action="signup.php" method="POST">
     <div class="form">
@@ -74,7 +71,7 @@ if(isset($_GET['id'])){
           <p>Agreed to terms and conditions</p>
        </div> 
       <div class="inputfield">
-        <input type="submit" value="Register" class="btn" name="submit">
+        <input type="submit" value="Save" class="btn" name="submit">
       </div>
     </div>
 </div>	

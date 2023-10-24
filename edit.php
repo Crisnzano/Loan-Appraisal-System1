@@ -23,14 +23,14 @@ while($row=mysqli_fetch_assoc($result))
 <head>
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Edit Staff Details Form</title>
+	<title>Edit Admin Details Form</title>
 	<link rel="stylesheet" href="manage_borrower.css">
 </head>
 <body>
 
 <div class="wrapper">
     <div class="title">
-      Edit Staff Details Form
+      Edit Admin Details Form
     </div>
     <form action="update.php?ID =<?php echo $StaffID ?>" method="POST">
     <div class="form">

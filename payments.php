@@ -35,7 +35,7 @@
 						 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 						 include('./db_connect.php');
 						 
-						 $query="SELECT p.*, l.ref_number AS rnumber FROM loan_repayment p,loans l where p.loanID = l.loanID AND l.loan_status=1";
+						 $query="SELECT p.*, l.ref_number AS rnumber FROM loan_repayment p,loans l where p.loanID = l.loanID AND l.loan_status=2";
 						 $connect=mysqli_query($conn,$query);
 						 
 								 while($row= mysqli_fetch_array($connect))
