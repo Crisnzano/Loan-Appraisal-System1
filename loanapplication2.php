@@ -1,105 +1,229 @@
+<?php include('db_connect.php');?>
+
 <?php 
+session_start();
+
 include('db_connect.php');
 if(isset($_GET['name'])){
-$qry = $conn->query("SELECT * FROM roles where username = '$username'");
+$qry = $conn->query("SELECT * FROM roles where username = ".$_GET['username']);
 foreach($qry->fetch_array() as $k => $v){
 	$$k = $v;
 }
 }
-?>
+// Define error variables
+$payeeErr = $loanAmountErr = $repaymentAmountErr = "";
 
-	<!DOCTYPE html>
+// Initialize variables to hold user inputs
+$payee = $loan_amount = $purpose = $loan_type = $loan_plan = $repayment_amount = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Validate Client Name
+  if (empty($_POST['payee'])) {
+    $payeeErr = "Client Name is required";
+  } else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['payee'])) {
+    $payeeErr = "Only letters and white space allowed";
+  } else {
+    $payee = test_input($_POST['payee']);
+  }
+
+
+  // Validate Loan Amount
+  if (empty($_POST['loan_amount'])) {
+      $loanAmountErr = "Loan Amount is required";
+  } else {
+    $loan_amount = test_input($_POST['loan_amount']);
+  }
+   // Validate Repayment Amount
+   if (empty($_POST['repayment_amount'])) {
+    $repaymentAmountErr = "Repayment Amount is required";
+} else {
+  $repayment_amount = test_input($_POST['repayment_amount']);
+}
+ // If all inputs are valid, you can proceed to save the data to the database
+ if (empty($payeeErr) && empty($loanAmountErr) && empty($repaymentAmountErr)) {
+  mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        function generateKey(){
+            $keyLength=6;
+            $str="1234567890";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+         function generateKey2(){
+            $keyLength=1;
+            $str="1234567890";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+         function generateKey3(){
+            $keyLength=1;
+            $str="123456789";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+        function getClientID(){
+        } 
+        
+        $loantype= htmlspecialchars($_POST['loan_type']);
+        $plan = htmlspecialchars($_POST['loan_plan']);
+        $amount = htmlspecialchars($_POST['loan_amount']);
+        $purpose= htmlspecialchars($_POST['purpose']);
+        $refno= generateKey();
+        $clientID = generateKey2();
+        $status=0;
+        $loanID = generateKey3();
+        $payee = htmlspecialchars($_POST['payee']);
+        $repaymentamnt = htmlspecialchars($_POST['repayment_amount']);
+
+      
+    $sql = "INSERT INTO loans ( clientID, purpose, loan_type_id, ref_number, loan_amount, planID, loan_status, loanID) VALUES ('$clientID','$purpose','$loantype','$refno', '$amount', '$plan','$status','$loanID')";
+    $query=mysqli_query($conn,$sql);
+
+    if($query){
+        $sql2 ="INSERT INTO loan_repayment (loanID,payee,monthly_repayment_amount) Values ('$loanID','$payee','$repaymentamnt')";
+        $result=mysqli_query($conn,$sql2);
+      
+        $_SESSION['status'] = "Data Updated Successfully ,your reference number is "; echo $refno;
+        alert_toast("Loan Data successfully saved.","success");
+					
+    }else{
+        $_SESSION['status'] = "Not Updated";
+        alert_toast("Loan Data has not been saved.");
+        header("Location: index.php?page=loans ");
+        exit();
+        }
+
+}
+}
+// Function to sanitize user inputs
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+// Get the current URL
+$current_url = $_SERVER['REQUEST_URI'];
+
+// Check if the current URL contains "index.php?page=loans"
+//if (strpos($current_url, "index.php") !== false) {
+    // Don't display the "Go Back" button
+   // $showGoBackButton = false;
+//} else {
+    // Display the "Go Back" button
+    $showGoBackButton = true;
+//}
+//echo "Show Go Back Button: " . ($showGoBackButton ? "Yes" : "No") . "<br>";
+//echo ($current_url)
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Loanapplication Form</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css">
-	<link rel="stylesheet" href="loanapplication.css">
+	<title>Loan Application Form</title>
+	<link rel="stylesheet" href="manage_borrower.css">
+  <style>
+    .error {color: #FF0000;}
+  </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="title">
-      Registration Form
+      Loan Application Form
     </div>
-    <form action=" " method="POST" id="loan-application">
-		<input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+    <form action="loanapplication2.php" method="POST">
     <div class="form">
-       <div class="inputfield">
+    <div class="inputfield">
           <label>Client Name</label>
-          	<?php
-				$borrower = $conn->query("SELECT *,concat(lastname,', ',firstname) as name FROM roles order by concat(lastname,', ',firstname) asc ");
-				?>
-				<select name="borrower_id" id="" class="custom-select browser-default select2">
-					<option value=""></option>
-						<?php while($row = $borrower->fetch_assoc()): ?>
-							<option value="<?php echo $row['roleID'] ?>" <?php echo isset($borrower_id) && $borrower_id == $row['roleID'] ? "selected" : '' ?>><?php echo $row['name'] . ' | TaxID:'.$row['tax_id'] ?></option>
-						<?php endwhile; ?>
-				</select>
-       </div>  
-        <div class="inputfield">
-          <label>Loan Type</label>
-          <?php
-				$type = $conn->query("SELECT * FROM loan_types order by 'type_name'desc ");
-				?>
-				<select name="loan_type_id" id="" class="custom-select browser-default select2">
-					<option value=""></option>
-						<?php while($row = $type->fetch_assoc()): ?>
-							<option value="<?php echo $row['loan_typeID'] ?>" <?php echo isset($loan_type_id) && $loan_type_id == $row['loan_typeID'] ? "selected" : '' ?>><?php echo $row['type_name'] ?></option>
-
-
-						<?php endwhile; ?>
-				</select>
-       </div>  
-       <div class="inputfield">
-          <label>Loan Plan</label>
-          <?php
-				$plan = $conn->query("SELECT * FROM loan_plan ");
-				?>
-				<select name="plan_id" id="" class="custom-select browser-default select2">
-					<option value=""></option>
-						<?php while($row = $plan->fetch_assoc()): ?>
-							<option value="<?php echo $row['planID'] ?>" <?php echo isset($plan_id) && $plan_id == $row['planID'] ? "selected" : '' ?> data-months="<?php echo $row['loan_tenure'] ?>" data-interest_percentage="<?php echo $row['interest_percentage'] ?>" data-penalty_rate="<?php echo $row['penalty_rate'] ?>"><?php echo $row['loan_tenure'] . ' month/s [ '.$row['interest_percentage'].'%, '.$row['penalty_rate'].'% ]' ?></option>
-						<?php endwhile; ?>
-				</select>
-				<small>[int&pen% ]</small>
-       </div>  
-      <div class="inputfield">
-          <label>Loan Amount</label>
-          <input type="number" name="amount" step="any" id="" value="<?php echo isset($amount) ? $amount : '' ?>">
+          <input type="text" class="input" name="payee" placeholder="Client Name" required>
+          <span class="error">* <?php echo $payeeErr; ?></span>
        </div> 
-       
+         <div class="inputfield">
+          <label>Loan Amount</label>
+          <input type="number" class="input" name="loan_amount" placeholder="Amount in Ksh" required>
+          <span class="error">* <?php echo $loanAmountErr; ?></span>
+       </div> 
       <div class="inputfield">
           <label>Purpose</label>
-          <textarea class="textarea" name="purpose" id=""></textarea>
+          <textarea type="text" class="input" name="purpose" placeholder="Loan Purpose"></textarea>
        </div> 
-      <div class="inputfield terms">
-          <label class="check">
-            <input type="checkbox">
-            <span class="checkmark"></span>
-          </label>
-          <p>Agreed to terms and conditions</p>
-       </div> 
+       <div class="inputfield">
+          <label>Loan Type</label>
+          <?php 
+          $query = "SELECT * FROM  loan_types";
+          $result = mysqli_query($conn,$query);
+          ?>
 
+          
+          <select id ="loan_type" class="input" name="loan_type">
+          <optgroup label="Types">
+          	<?php while($row = mysqli_fetch_array($result)) ?>
+				<option value="1" <?php echo isset($meta['loan_type']) && $meta['loan_type'] == 1 ? 'selected': '' ?>>Student Loan</option>
+				<option value="2" <?php echo isset($meta['loan_type']) && $meta['loan_type'] == 2 ? 'selected': '' ?>>Personal Loan</option>
+				<option value="3" <?php echo isset($meta['loan_type']) && $meta['loan_type'] == 3 ? 'selected': '' ?>>Mortgage Loan</option>
+          </optgroup>
+        </select>
+       </div> 
+    
+       <div class="inputfield">
+          <label>Loan Plan</label>
+          <?php 
+          $query = "SELECT * FROM  loan_plan ";
+          $result = mysqli_query($conn,$query);
+          ?>
+
+          <select id="loan_plans" class="input" name="loan_plan">
+          <optgroup label="Plans">
+          	<?php while($row = mysqli_fetch_array($result)) ?>
+        <option value="1" <?php echo isset($meta['loan_plans']) && $meta['loan_plans'] == 1 ? 'selected': '' ?>>36months,8%int,3penrate</option>
+				<option value="2" <?php echo isset($meta['loan_plans']) && $meta['loan_plans'] == 2 ? 'selected': '' ?>>24months,5%int,2penrate</option>
+				<option value="3" <?php echo isset($meta['loan_plans']) && $meta['loan_plans'] == 3 ? 'selected': '' ?>>27months,6%int,3penrate</option>	
+
+          	
+          </optgroup>
+        </select>
+        
+       </div> 
+	   <div class="inputfield">
+          <label>Repayment Amount</label>
+          <input type="number" class="input" name="repayment_amount" placeholder="Repayment Amount" required>
+          <span class="error">* <?php echo $repaymentAmountErr; ?></span>
+       </div>
        <div>
        		<a href="calculation_table2.php"><button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button></a>
             </div>
        <div id="calculation_table">
 			
 		</div>
+      <div class="inputfield terms">
+          <label class="check">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+          </label>
+          <p>Agree to terms and conditions</p>
+       </div> 
+      
+      <div class="inputfield" ><a href="http://localhost:8501">
+                <button type="button" class="btn">Want to check if you are eligible for your loan? Click here </button></a>
+            </div>
 
-		<div id="row-field">
-			<div class="inputfield">
-					<button class="btn btn-primary btn-sm " type="submit">Save</button>
-					<button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
-				
-			</div>
-		</div>
+      <div class="inputfield">
+        <input type="submit" value="Save" class="btn" name="submit">
+        
+      </div>
+	  <div>
+        <a href="index.php?page=loans">
+            <button type="button" class="btn">Go Back</button>
+        </a>
+            </div>
+
     </div>
-</form>
-</div>	
+    
+    </form>        
+</div>
+
 <script>
+  
 	
 	$('.select2').select2({
 		placeholder:"Please select here",
@@ -131,38 +255,11 @@ foreach($qry->fetch_array() as $k => $v){
 
 		})
 	}
-	$('#loan-application').submit(function(e){
-		e.preventDefault()
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=save_loan',
-			method:"POST",
-			data:$(this).serialize(),
-			success:function(resp){
-				if(resp ==1 ){
-					$('.modal').modal('hide')
-					alert_toast("Loan Data successfully saved.","success")
-					setTimeout(function(){
-						location.reload();
-					},1500)
-				}
-			}
-		})
-	})
-	$(document).ready(function(){
-		if('<?php echo isset($_GET['id']) ?>' == 1)
-			calculate()
-	})
-</script>
-<style>
-	#uni_modal .modal-footer{
-		display: none
-	}
-</style>
+</script>	
+
+
 	
 </body>
 </html>
 
-</body>
-</html>
 

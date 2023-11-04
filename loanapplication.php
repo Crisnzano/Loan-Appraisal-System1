@@ -10,6 +10,109 @@ foreach($qry->fetch_array() as $k => $v){
 	$$k = $v;
 }
 }
+// Define error variables
+$payeeErr = $loanAmountErr = $repaymentAmountErr = "";
+
+// Initialize variables to hold user inputs
+$payee = $loan_amount = $purpose = $loan_type = $loan_plan = $repayment_amount = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Validate Client Name
+  if (empty($_POST['payee'])) {
+    $payeeErr = "Client Name is required";
+  } else if (!preg_match("/^[a-zA-Z ]*$/", $_POST['payee'])) {
+    $payeeErr = "Only letters and white space allowed";
+  } else {
+    $payee = test_input($_POST['payee']);
+  }
+
+
+  // Validate Loan Amount
+  if (empty($_POST['loan_amount'])) {
+      $loanAmountErr = "Loan Amount is required";
+  } else {
+    $loan_amount = test_input($_POST['loan_amount']);
+  }
+   // Validate Repayment Amount
+   if (empty($_POST['repayment_amount'])) {
+    $repaymentAmountErr = "Repayment Amount is required";
+} else {
+  $repayment_amount = test_input($_POST['repayment_amount']);
+}
+ // If all inputs are valid, you can proceed to save the data to the database
+ if (empty($payeeErr) && empty($loanAmountErr) && empty($repaymentAmountErr)) {
+  mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        function generateKey(){
+            $keyLength=6;
+            $str="1234567890";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+         function generateKey2(){
+            $keyLength=1;
+            $str="1234567890";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+         function generateKey3(){
+            $keyLength=1;
+            $str="123456789";
+            $randStr=substr(str_shuffle($str),0,$keyLength);
+            return$randStr;
+        }
+        function getClientID(){
+        } 
+        
+        $loantype= htmlspecialchars($_POST['loan_type']);
+        $plan = htmlspecialchars($_POST['loan_plan']);
+        $amount = htmlspecialchars($_POST['loan_amount']);
+        $purpose= htmlspecialchars($_POST['purpose']);
+        $refno= generateKey();
+        $clientID = generateKey2();
+        $status=0;
+        $loanID = generateKey3();
+        $payee = htmlspecialchars($_POST['payee']);
+        $repaymentamnt = htmlspecialchars($_POST['repayment_amount']);
+
+      
+    $sql = "INSERT INTO loans ( clientID, purpose, loan_type_id, ref_number, loan_amount, planID, loan_status, loanID) VALUES ('$clientID','$purpose','$loantype','$refno', '$amount', '$plan','$status','$loanID')";
+    $query=mysqli_query($conn,$sql);
+
+    if($query){
+        $sql2 ="INSERT INTO loan_repayment (loanID,payee,monthly_repayment_amount) Values ('$loanID','$payee','$repaymentamnt')";
+        $result=mysqli_query($conn,$sql2);
+      
+        $_SESSION['status'] = "Data Updated Successfully ,your reference number is "; echo $refno;
+        alert_toast("Loan Data successfully saved.","success");
+					
+    }else{
+        $_SESSION['status'] = "Not Updated";
+        alert_toast("Loan Data has not been saved.");
+        header("Location: index.php?page=loans ");
+        exit();
+        }
+
+}
+}
+// Function to sanitize user inputs
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+// Get the current URL
+//$current_url = $_SERVER['REQUEST_URI'];
+
+// Check if the current URL contains "index.php?page=loans"
+//if (strpos($current_url, "index.php") !== false) {
+    // Don't display the "Go Back" button
+   // $showGoBackButton = false;
+//} else {
+    // Display the "Go Back" button
+    //$showGoBackButton = true;
+//}
+//echo "Show Go Back Button: " . ($showGoBackButton ? "Yes" : "No") . "<br>";
+//echo ($current_url)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,61 +129,19 @@ foreach($qry->fetch_array() as $k => $v){
 
 <div class="wrapper">
     <div class="title">
-	<?php 
-  $nameErr = $amountErr = $repaymentErr = "";
-  $payee = $loan_amount = $repayment_amount = "";
-
-
-  if($_SERVER["REQUEST_METHOD"] == "POST"){
-    if(empty($_POST["payee"])){
-      $nameErr = "Please enter a valid name";
-    }
-    else{
-      $name = test_input($_POST["payee"]);
-      if(! preg_match("/^[a-zA-Z-']*$/", $payee)) {
-        $nameErr = "Only letters and white spaces allowed";
-      }
-    }
-  if(empty($_POST["loan_amount"])){
-    $amountErr = "Valid Application Amount";
-  }
-  else{
-    $amountErr = test_input($_POST["loan_amount"]);
-    if(! preg_match("/^[0-9']*$/", $loan_amount)) {
-      $amountErr = "Please input a valid application amount ";
-    }
-  }
-  if(empty($_POST["repayment_amount"])){
-    $repaymentErr = "Valid Repayment Amount";
-  }
-  else{
-    $repaymentErr = test_input($_POST["repayment_amount"]);
-    if(! preg_match("/^[0-9']*$/", $repayment_amount)) {
-      $repaymentErr = "Please input a valid repayment amount ";
-    }
-  }
-}
-
-  function test_input($data){
-    $data = trim($data);
-    $data = stripcslashes($data);
-    return $data;
-  }
-
-                ?>
       Loan Application Form
     </div>
-    <form action="apply.php" method="POST">
+    <form action="loanapplication.php" method="POST">
     <div class="form">
     <div class="inputfield">
           <label>Client Name</label>
-          <input type="text" class="input" name="payee" placeholder="Client Name">
-          <span class="error">* <?php echo $nameErr; ?></span>
+          <input type="text" class="input" name="payee" placeholder="Client Name" required>
+          <span class="error">* <?php echo $payeeErr; ?></span>
        </div> 
          <div class="inputfield">
           <label>Loan Amount</label>
-          <input type="number" class="input" name="loan_amount" placeholder="Amount in Ksh">
-          <span class="error">* <?php echo $amountErr; ?></span>
+          <input type="number" class="input" name="loan_amount" placeholder="Amount in Ksh" required>
+          <span class="error">* <?php echo $loanAmountErr; ?></span>
        </div> 
       <div class="inputfield">
           <label>Purpose</label>
@@ -125,8 +186,8 @@ foreach($qry->fetch_array() as $k => $v){
        </div> 
 	   <div class="inputfield">
           <label>Repayment Amount</label>
-          <input type="number" class="input" name="repayment_amount" placeholder="Repayment Amount">
-          <span class="error">* <?php echo $repaymentErr; ?></span>
+          <input type="number" class="input" name="repayment_amount" placeholder="Repayment Amount" required>
+          <span class="error">* <?php echo $repaymentAmountErr; ?></span>
        </div>
        <div>
        		<a href="calculation_table2.php"><button class="btn btn-primary btn-sm btn-block align-self-end" type="button" id="calculate">Calculate</button></a>
@@ -151,8 +212,10 @@ foreach($qry->fetch_array() as $k => $v){
         
       </div>
 
-        <div><a href="Client.php">
-                <button type="button" class="btn">Go Back</button></a>
+        <div>
+        <a href="Client.php">
+            <button type="button" class="btn">Go Back</button>
+        </a>
             </div>
     </div>
     
@@ -192,28 +255,6 @@ foreach($qry->fetch_array() as $k => $v){
 
 		})
 	}
-	$('#loan-application').submit(function(e){
-		e.preventDefault()
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=save_loan',
-			method:"POST",
-			data:$(this).serialize(),
-			success:function(resp){
-				if(resp ==1 ){
-					$('.modal').modal('hide')
-					alert_toast("Loan Data successfully saved.","success")
-					setTimeout(function(){
-						location.reload();
-					},1500)
-				}
-			}
-		})
-	})
-	$(document).ready(function(){
-		if('<?php echo isset($_GET['id']) ?>' == 1)
-			calculate()
-	})
 </script>	
 
 

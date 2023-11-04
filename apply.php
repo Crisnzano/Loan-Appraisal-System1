@@ -42,34 +42,32 @@
         $payee = htmlspecialchars($_POST['payee']);
         $repaymentamnt = htmlspecialchars($_POST['repayment_amount']);
 
-        $nameErr = $amountErr = $repaymentErr = "";
+       // Define error variables
+$payeeErr = $loanAmountErr = $repaymentAmountErr = "";
 
-        if(empty($payee)){
-            $nameErr = "Please enter a valid name";
-          }
-          else{
-            $name = test_input($_POST["payee"]);
-            if(! preg_match("/^[a-zA-Z-']*$/", $payee)) {
-              $nameErr = "Only letters and white spaces allowed";
-            }
-          }
+// Initialize variables to hold user inputs
+$payee = $loan_amount = $purpose = $loan_type = $loan_plan = $repayment_amount = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Validate Client Name
+  if (empty($_POST['payee'])) {
+      $payeeErr = "Client Name is required";
+  } else {
+      $payee = $_POST['payee'];
+  }
 
-        if(empty($payee)){
-            
-            header("location:loanapplication.php");
-            
-        }
-        if(empty($purpose)){
-          
-            header("location:loanapplication.php");
-            
-        }
-        if(empty($repaymentamnt)){
-          
-            header("location:loanapplication.php");
-            
-        }
-
+  // Validate Loan Amount
+  if (empty($_POST['loan_amount'])) {
+      $loanAmountErr = "Loan Amount is required";
+  } else {
+      $loan_amount = $_POST['loan_amount'];
+  }
+   // Validate Repayment Amount
+   if (empty($_POST['repayment_amount'])) {
+    $repaymentAmountErr = "Repayment Amount is required";
+} else {
+    $repayment_amount = $_POST['repayment_amount'];
+}
+}
 
     $sql = "INSERT INTO loans ( clientID, purpose, loan_type_id, ref_number, loan_amount, planID, loan_status, loanID) VALUES ('$clientID','$purpose','$loantype','$refno', '$amount', '$plan','$status','$loanID')";
     $query=mysqli_query($conn,$sql);

@@ -33,6 +33,18 @@
         $confirm_password = mysqli_real_escape_string($conn, md5($_POST['confirm-password']));
         $code = mysqli_real_escape_string($conn, md5(rand()));
 
+        // Validation checks
+    if (empty($fname) || empty($lname) || empty($uname) || empty($email) || empty($address) || empty($phone) || empty($taxid) || empty($nationalid) || empty($_POST['password']) || empty($_POST['confirm-password'])) {
+        $msg = "<div class='alert alert-danger'>All fields are required.</div>";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $msg = "<div class='alert alert-danger'>Invalid email address.</div>";
+    } elseif (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM roles WHERE email='{$email}'")) > 0) {
+        $msg = "<div class='alert alert-danger'>{$email} - This email address already exists.</div>";
+    } elseif ($password !== $confirm_password) {
+        $msg = "<div class='alert alert-danger'>Password and Confirm Password do not match.</div>";
+    }
+    else {
+
         if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM roles WHERE email='{$email}'")) > 0) {
             $msg = "<div class='alert alert-danger'>{$email} - This email address already exists.</div>";
         } else {
@@ -82,6 +94,7 @@
                 $msg = "<div class='alert alert-danger'>Password and Confirm Password do not match</div>";
             }
         }
+    }
     }
 ?>
 

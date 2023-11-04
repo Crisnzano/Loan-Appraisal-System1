@@ -119,7 +119,7 @@
 <script>
 	$('#loan-list').dataTable()
 	$('#new_application').click(function(){
-		uni_modal("New Loan Application","loanapplication.php",'mid-large')
+		uni_modal("New Loan Application","loanapplication2.php",'mid-large')
 	})
 	$('#edit_loan').click(function(){
 		uni_modal("Edit Loan","edit2.php?GetID=<?php echo $LoanID ?>",'mid-large')
