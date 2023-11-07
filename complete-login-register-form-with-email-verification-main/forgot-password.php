@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = 'no reply';
-                $mail->Body    = 'Here is the verification link <b><a href="http://localhost/login/change-password.php?reset='.$code.'">http://localhost/login/change-password.php?reset='.$code.'</a></b>';
+                $mail->Body    = 'Here is the verification link <b><a href="http://Localhost:81/Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/change-password.php?reset='.$code.'">http://Localhost:81/Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/change-password.php?reset='.$code.'</a></b>';
 
                 $mail->send();
                 echo 'Message has been sent';
@@ -58,10 +58,10 @@ if (isset($_POST['submit'])) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
             echo "</div>";        
-            $msg = "<div class='alert alert-info'>We've send a verification link on your email address.</div>";
+            $msg = "<div class='alert alert-info'>We've sent a verification link on your email address.</div>";
         }
     } else {
-        $msg = "<div class='alert alert-danger'>$email - This email address do not found.</div>";
+        $msg = "<div class='alert alert-danger'>$email - This email address is not found.</div>";
     }
 }
 
@@ -107,7 +107,7 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div class="content-wthree">
                         <h2>Forgot Password</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+                        <p>Reset your password. </p>
                         <?php echo $msg; ?>
                         <form action="" method="post">
                             <input type="email" class="email" name="email" placeholder="Enter Your Email" required>
