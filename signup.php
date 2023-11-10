@@ -19,14 +19,14 @@
 		$tax_id = $_POST['tax_id'];
 		$password= $_POST['password'];
 		$type=2;
-		$nationalID= $_POST['national_id'];
+		$national_id= $_POST['national_id'];
 		$clientid=generateKey3();
 
 
-	$sql = "INSERT INTO roles (firstname, lastname, username,address, phonenumber, email, tax_id, password, type, nationalID) VALUES ('$firstname', '$lastname','$username','$address','$contact_no', '$email', '$tax_id', '$password','$type','$nationalID')";
+	$sql = "INSERT INTO roles (firstname, lastname, username,address, phonenumber, email, tax_id, password, type ) VALUES ('$firstname', '$lastname','$username','$address','$contact_no', '$email', '$tax_id', '$password','$type')";
 	$query=mysqli_query($conn,$sql);
 	if($query){
-        $sql2 ="INSERT INTO client (firstname, lastname, username,address, phonenumber, email, tax_id, password, type, nationalID, client_ID) Values ('$firstname', '$lastname','$username','$address','$contact_no', '$email', '$tax_id', '$password','$type','$nationalID','$clientid')";
+        $sql2 ="INSERT INTO client (firstname, lastname, username,address, phonenumber, email, tax_id, password, type, nationalID, clientID) Values ('$firstname', '$lastname','$username','$address','$contact_no', '$email', '$tax_id', '$password','$type','$national_id','$clientid')";
         $result=mysqli_query($conn,$sql2);
 		echo"<br>";
 		echo header('location:login.php');

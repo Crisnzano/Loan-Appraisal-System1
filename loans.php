@@ -5,6 +5,12 @@
  $query="SELECT l.*, p.monthly_repayment_amount AS pamount, p.payee AS payee FROM loans l,loan_repayment p where l.loanID = p.loanID ";
  $result=mysqli_query($conn,$query);
 ?>
+<?php
+if (isset($_GET['message'])) {
+    $message = urldecode($_GET['message']);
+    echo '<div class="alert alert-success">' . $message . '</div>';
+}
+?>
 
 <div class="container-fluid">
 	<div class="col-lg-12">

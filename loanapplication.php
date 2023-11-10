@@ -87,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }else{
         $_SESSION['status'] = "Not Updated";
         alert_toast("Loan Data has not been saved.");
-        header("Location: index.php?page=loans ");
         exit();
         }
 
@@ -203,7 +202,7 @@ function test_input($data) {
           <p>Agree to terms and conditions</p>
        </div> 
       
-      <div class="inputfield" ><a href="http://localhost:8501">
+      <div class="inputfield" ><a href="http://localhost:8502">
                 <button type="button" class="btn">Want to check if you are eligible for your loan? Click here </button></a>
             </div>
 

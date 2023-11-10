@@ -1,4 +1,10 @@
 <?php include 'db_connect.php' ?>
+<?php
+// Check if a message is present in the URL
+if (isset($_GET['message'])) {
+    echo '<div class="alert alert-info">' . htmlspecialchars($_GET['message']) . '</div>';
+}
+?>
 
 <div class="container-fluid">
 	<div class="col-lg-12">
