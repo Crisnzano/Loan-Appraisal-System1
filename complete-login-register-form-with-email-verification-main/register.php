@@ -1,84 +1,93 @@
-<!-- Code by Brave Coder - https://youtube.com/BraveCoder -->
-
 <?php
-    //Import PHPMailer classes into the global namespace
-    //These must be at the top of your script, not inside a function
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
+// Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-    session_start();
-    if (isset($_SESSION['SESSION_EMAIL'])) {
-        header("Location:../Client.php");
-        die();
-    }
+session_start();
+if (isset($_SESSION['SESSION_EMAIL'])) {
+    header("Location:../Client.php");
+    die();
+}
 
-    //Load Composer's autoloader
-    require 'vendor/autoload.php';
+// Load Composer's autoloader
+require 'vendor/autoload.php';
 
-    include 'config.php';
-    $msg = "";
+include 'config.php';
+$msg = "";
 
-    if (isset($_POST['submit'])) {
-        $fname = mysqli_real_escape_string($conn, $_POST['firstname']);
-        $lname = mysqli_real_escape_string($conn, $_POST['lastname']);
-        $uname = mysqli_real_escape_string($conn, $_POST['username']);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $address = mysqli_real_escape_string($conn, $_POST['address']);
-        $phone = mysqli_real_escape_string($conn, $_POST['phonenumber']);
-        $taxid = mysqli_real_escape_string($conn, $_POST['tax_id']);
-        $nationalid = mysqli_real_escape_string($conn, $_POST['nationalID']);
-        $type=2;
-        $password = mysqli_real_escape_string($conn, md5($_POST['password']));
-        $confirm_password = mysqli_real_escape_string($conn, md5($_POST['confirm-password']));
-        $code = mysqli_real_escape_string($conn, md5(rand()));
+if (isset($_POST['submit'])) {
+    $fname = mysqli_real_escape_string($conn, $_POST['firstname']);
+    $lname = mysqli_real_escape_string($conn, $_POST['lastname']);
+    $uname = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phonenumber']);
+    $taxid = mysqli_real_escape_string($conn, $_POST['tax_id']);
+    $nationalid = mysqli_real_escape_string($conn, $_POST['nationalID']);
+    $type = 2;
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $confirm_password = mysqli_real_escape_string($conn, $_POST['confirm-password']);
+    $code = mysqli_real_escape_string($conn, md5(rand()));
 
-        // Validation checks
-    if (empty($fname) || empty($lname) || empty($uname) || empty($email) || empty($address) || empty($phone) || empty($taxid) || empty($nationalid) || empty($_POST['password']) || empty($_POST['confirm-password'])) {
+    // Validation checks
+    if (
+        empty($fname) || empty($lname) || empty($uname) || empty($email) || empty($address) ||
+        empty($phone) || empty($taxid) || empty($nationalid) || empty($password) || empty($confirm_password)
+    ) {
         $msg = "<div class='alert alert-danger'>All fields are required.</div>";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $msg = "<div class='alert alert-danger'>Invalid email address.</div>";
     } elseif (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM roles WHERE email='{$email}'")) > 0) {
         $msg = "<div class='alert alert-danger'>{$email} - This email address already exists.</div>";
+    } elseif (!preg_match('/^[a-zA-Z]+$/', $fname) || !preg_match('/^[a-zA-Z]+$/', $lname)) {
+        $msg = "<div class='alert alert-danger'>First and Last names should contain only letters.</div>";
+    } elseif (!preg_match('/^[a-zA-Z0-9]+$/', $uname)) {
+        $msg = "<div class='alert alert-danger'>Username should contain only letters and numbers.</div>";
+    } elseif (!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
+        $msg = "<div class='alert alert-danger'>Password should contain only letters and numbers.</div>";
     } elseif ($password !== $confirm_password) {
         $msg = "<div class='alert alert-danger'>Password and Confirm Password do not match.</div>";
-    }
-    else {
+    } else {
+        // Hash the password
+        $password = password_hash($password, PASSWORD_DEFAULT);
 
         if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM roles WHERE email='{$email}'")) > 0) {
             $msg = "<div class='alert alert-danger'>{$email} - This email address already exists.</div>";
         } else {
             if ($password === $confirm_password) {
-                $sql = "INSERT INTO roles (firstname, lastname, username, email, address, phonenumber, tax_id, password, code, type) VALUES ('{$fname}', '{$lname}', '{$uname}', '{$email}', '{$address}', '{$phone}', '{$taxid}', '{$password}', '{$code}', '{$type}')";
+                $sql = "INSERT INTO roles (firstname, lastname, username, email, address, phonenumber, tax_id, password, code, type) VALUES ('$fname', '$lname', '$uname', '$email', '$address', '$phone', '$taxid', '$password', '$code', '$type')";
                 $result = mysqli_query($conn, $sql);
-                if($result){
-                    $sql2 ="INSERT INTO client (firstname, lastname, username, email, address, phonenumber, tax_id, password, nationalID, type) VALUES ('{$fname}', '{$lname}', '{$uname}', '{$email}', '{$address}', '{$phone}', '{$taxid}', '{$password}', '{$nationalid}', '{$type}')";
-                    $result=mysqli_query($conn,$sql2);}
+
+                if ($result) {
+                    $sql2 = "INSERT INTO client (firstname, lastname, username, email, address, phonenumber, tax_id, password, nationalID, type) VALUES ('$fname', '$lname', '$uname', '$email', '$address', '$phone', '$taxid', '$password', '$nationalid', '$type')";
+                    $result = mysqli_query($conn, $sql2);
+                }
 
                 if ($result) {
                     echo "<div style='display: none;'>";
-                    //Create an instance; passing `true` enables exceptions
+                    // Create an instance; passing `true` enables exceptions
                     $mail = new PHPMailer(true);
 
                     try {
-                        //Server settings
-                        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                        $mail->isSMTP();                                            //Send using SMTP
-                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                        $mail->Username   = 'crispus.nzano@gmail.com';                     //SMTP username
-                        $mail->Password   = 'obnp rsoe eqfn eoed';                               //SMTP password
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                        // Server settings
+                        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+                        $mail->isSMTP();                                            // Send using SMTP
+                        $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server to send through
+                        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+                        $mail->Username   = 'crispus.nzano@gmail.com';                     // SMTP username
+                        $mail->Password   = 'obnp rsoe eqfn eoed';                               // SMTP password
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            // Enable implicit TLS encryption
+                        $mail->Port       = 465;                                    // TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-                        //Recipients
+                        // Recipients
                         $mail->setFrom('crispus.nzano@gmail.com');
                         $mail->addAddress($email);
 
-                        //Content
-                        $mail->isHTML(true);                                  //Set email format to HTML
+                        // Content
+                        $mail->isHTML(true);                                  // Set email format to HTML
                         $mail->Subject = 'no reply';
-                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification='.$code.'">http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification='.$code.'</a></b>';
+                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '">http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '</a></b>';
 
                         $mail->send();
                         echo 'Message has been sent';
@@ -86,16 +95,16 @@
                         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                     echo "</div>";
-                    $msg = "<div class='alert alert-info'>We've sent a verification link on your email address.</div>";
+                    $msg = "<div class='alert alert-info'>We've sent a verification link to your email address.</div>";
                 } else {
-                    $msg = "<div class='alert alert-danger'>Something wrong went.</div>";
+                    $msg = "<div class='alert alert-danger'>Something went wrong.</div>";
                 }
             } else {
                 $msg = "<div class='alert alert-danger'>Password and Confirm Password do not match</div>";
             }
         }
     }
-    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -106,8 +115,7 @@
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
-    <meta name="keywords"
-        content="Login Form" />
+    <meta name="keywords" content="Login Form" />
     <!-- //Meta tag Keywords -->
 
     <link href="//fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -140,16 +148,26 @@
                         <h2>Register Now</h2>
                         <?php echo $msg; ?>
                         <form action="" method="post">
-                            <input type="text" class="name" name="firstname" placeholder="Enter Your First Name" value="<?php if (isset($_POST['submit'])) { echo $fname; } ?>" required>
-                            <input type="text" class="name" name="lastname" placeholder="Enter Your Last Name" value="<?php if (isset($_POST['submit'])) { echo $lname; } ?>" required>
-                            <input type="text" class="name" name="username" placeholder="Enter Your Username" value="<?php if (isset($_POST['submit'])) { echo $uname; } ?>" required>
-                            <input type="email" class="email" name="email" placeholder="Enter Your Email" value="<?php if (isset($_POST['submit'])) { echo $email; } ?>" required>
-                            <input type="text" class="name" name="address" placeholder="Enter Your Address" value="<?php if (isset($_POST['submit'])) { echo $address; } ?>" required>
-                            <input type="text" class="name" name="phonenumber" placeholder="Enter Your Phone number" value="<?php if (isset($_POST['submit'])) { echo $phone; } ?>" required>
-                            <input type="text" class="name" name="tax_id" placeholder="Enter Your Tax ID" value="<?php if (isset($_POST['submit'])) { echo $taxid; } ?>" required>
-                            <input type="text" class="name" name="nationalID" placeholder="Enter Your ID number" value="<?php if (isset($_POST['submit'])) { echo $nationalid; } ?>" required>
-                            <input type="password" class="password" name="password" placeholder="Enter Your Password" required>
-                            <input type="password" class="confirm-password" name="confirm-password" placeholder="Enter Your Confirm Password" required>
+                            <input type="text" class="name" name="firstname" placeholder="Enter Your First Name"
+                                value="<?php if (isset($_POST['submit'])) {echo $fname;} ?>" required>
+                            <input type="text" class="name" name="lastname" placeholder="Enter Your Last Name"
+                                value="<?php if (isset($_POST['submit'])) {echo $lname;} ?>" required>
+                            <input type="text" class="name" name="username" placeholder="Enter Your Username"
+                                value="<?php if (isset($_POST['submit'])) {echo $uname;} ?>" required>
+                            <input type="email" class="email" name="email" placeholder="Enter Your Email"
+                                value="<?php if (isset($_POST['submit'])) {echo $email;} ?>" required>
+                            <input type="text" class="name" name="address" placeholder="Enter Your Address"
+                                value="<?php if (isset($_POST['submit'])) {echo $address;} ?>" required>
+                            <input type="text" class="name" name="phonenumber" placeholder="Enter Your Phone number"
+                                value="<?php if (isset($_POST['submit'])) {echo $phone;} ?>" required>
+                            <input type="text" class="name" name="tax_id" placeholder="Enter Your Tax ID"
+                                value="<?php if (isset($_POST['submit'])) {echo $taxid;} ?>" required>
+                            <input type="text" class="name" name="nationalID" placeholder="Enter Your ID number"
+                                value="<?php if (isset($_POST['submit'])) {echo $nationalid;} ?>" required>
+                            <input type="password" class="password" name="password"
+                                placeholder="Enter Your Password" required>
+                            <input type="password" class="confirm-password" name="confirm-password"
+                                placeholder="Enter Your Confirm Password" required>
                             <button name="submit" class="btn" type="submit">Register</button>
                         </form>
                         <div class="social-icons">
