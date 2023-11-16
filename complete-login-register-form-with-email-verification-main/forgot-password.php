@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
 <html lang="zxx">
 
 <head>
-    <title>Login Form - Brave Coder</title>
+    <title>Login Form </title>
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />

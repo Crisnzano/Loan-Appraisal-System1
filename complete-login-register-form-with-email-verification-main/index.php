@@ -91,7 +91,7 @@
                     </div>
                     <div class="w3l_form align-self">
                         <div class="left_grid_info">
-                            <img src="images/image.svg" alt="">
+                            <img src="images/image1.webp" alt="">
                         </div>
                     </div>
                     <div class="content-wthree">

@@ -82,7 +82,7 @@ if (isset($_SESSION['name']) && isset($_POST['download_pdf'])) {
             </div>
         </div>
 
-        <h1 align="center" style="color:deepskyblue;">My Details</h1>
+        <h1 align="center" style="color:white;">My Details</h1>
         <br>
         <div class="card-body">
             <div class="table-responsive">

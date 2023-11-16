@@ -141,7 +141,7 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div class="w3l_form align-self">
                         <div class="left_grid_info">
-                            <img src="images/image2.svg" alt="">
+                            <img src="images/image6.jpg" alt="">
                         </div>
                     </div>
                     <div class="content-wthree">

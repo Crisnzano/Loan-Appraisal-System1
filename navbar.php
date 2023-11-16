@@ -13,6 +13,7 @@
 				<a href="index.php?page=loan_type" class="nav-item nav-loan_type"><span class='icon-field'><i class="fa fa-th-list"></i></span> Loan Types</a>		
 				<?php if($_SESSION['role'] == 1): ?>
 				<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Users</a>
+				<a href="index.php?page=../Loan_Appraisal_System1/chartjs-project/index" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Reports</a>
 	
 				
 			<?php endif; ?>
