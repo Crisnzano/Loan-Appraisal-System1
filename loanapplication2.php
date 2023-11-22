@@ -10,6 +10,7 @@ if(isset($_GET['name'])){
     $$k = $v;
   }
 }
+$msg = "";
 
 // Define error variables
 $payeeErr = $loanAmountErr = $repaymentAmountErr = "";
@@ -51,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     function generateKey2(){
       $keyLength=1;
-      $str="1234567890";
+      $str="12345678";
       $randStr=substr(str_shuffle($str),0,$keyLength);
       return $randStr;
     }
     function generateKey3(){
       $keyLength=1;
-      $str="123456789";
+      $str="12345678";
       $randStr=substr(str_shuffle($str),0,$keyLength);
       return $randStr;
     }
@@ -80,13 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql2 ="INSERT INTO loan_repayment (loanID,payee,monthly_repayment_amount) Values ('$loanID','$payee','$repaymentamnt')";
         $result=mysqli_query($conn,$sql2);
 
-        $_SESSION['status'] = "Data Updated Successfully ,your reference number is "; echo $refno;
-        alert_toast("Loan Data successfully saved.","success");
+        $_SESSION['status'] = "Data Updated Successfully ,the client's reference number is ; $refno";
         header("Location: index.php?page=loans&message=" . urlencode("Loan Application was added successfully."));
         exit();
     } else {
         $_SESSION['status'] = "Not Updated";
-        alert_toast("Loan Data has not been saved.");
         header("Location: index.php?page=loans ");
         exit();
     }
@@ -187,7 +186,7 @@ function test_input($data) {
           <p>Agree to terms and conditions</p>
        </div> 
       
-      <div class="inputfield" ><a href="http://localhost:8502">
+      <div class="inputfield" ><a href="http://localhost:8501">
                 <button type="button" class="btn">Want to check if you are eligible for your loan? Click here </button></a>
             </div>
 

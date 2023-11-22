@@ -10,6 +10,7 @@ foreach($qry->fetch_array() as $k => $v){
 	$$k = $v;
 }
 }
+$msg = "";
 // Define error variables
 $payeeErr = $loanAmountErr = $repaymentAmountErr = "";
 
@@ -81,12 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql2 ="INSERT INTO loan_repayment (loanID,payee,monthly_repayment_amount) Values ('$loanID','$payee','$repaymentamnt')";
         $result=mysqli_query($conn,$sql2);
       
-        $_SESSION['status'] = "Data Updated Successfully ,your reference number is "; echo $refno;
-        alert_toast("Loan Data successfully saved.","success");
+        $msg = "<div class='alert alert-info'>Loan Data successfully saved, your reference number is </div>" . $refno;
 					
     }else{
-        $_SESSION['status'] = "Not Updated";
-        alert_toast("Loan Data has not been saved.");
+        $msg = "<div class='alert alert-info'>Loan Data has not been saved, </div>";
         exit();
         }
 
@@ -202,7 +201,7 @@ function test_input($data) {
           <p>Agree to terms and conditions</p>
        </div> 
       
-      <div class="inputfield" ><a href="http://localhost:8502">
+      <div class="inputfield" ><a href="http://localhost:8501">
                 <button type="button" class="btn">Want to check if you are eligible for your loan? Click here </button></a>
             </div>
 

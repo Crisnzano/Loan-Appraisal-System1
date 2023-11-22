@@ -36,18 +36,43 @@ function generatePDF($data) {
 }
 
 session_start();
-if (isset($_SESSION['name']) && isset($_POST['download_pdf'])) {
+if (isset($_SESSION['name'])) {
     include('./db_connect.php'); // Include your database connection code
 
-    $email = $_POST['email'];
-    $query = "SELECT * FROM roles WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
+    if (isset($_POST['search'])) {
+        $email = $_POST['email'];
+        $query = "SELECT * FROM roles WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
 
-    if ($row = mysqli_fetch_array($result)) {
-        generatePDF($row);
+        if ($row = mysqli_fetch_array($result)) {
+            // Display details as HTML
+            echo '<div>';
+            echo '<h2>Client Details</h2>';
+            echo '<p>Client ID: ' . $row['roleID'] . '</p>';
+            echo '<p>Username: ' . $row['username'] . '</p>';
+            echo '<p>Firstname: ' . $row['firstname'] . '</p>';
+            echo '<p>Lastname: ' . $row['lastname'] . '</p>';
+            echo '<p>Phonenumber: ' . $row['phonenumber'] . '</p>';
+            echo '<p>Email: ' . $row['email'] . '</p>';
+            echo '<p>Address: ' . $row['address'] . '</p>';
+            echo '<p>Tax ID: ' . $row['tax_id'] . '</p>';
+            echo '</div>';
+        }
+    }
+
+    if (isset($_POST['download_pdf'])) {
+        $email = $_POST['email'];
+        $query = "SELECT * FROM roles WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
+
+        if ($row = mysqli_fetch_array($result)) {
+            generatePDF($row);
+        }
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html>

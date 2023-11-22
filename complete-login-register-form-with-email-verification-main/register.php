@@ -15,7 +15,14 @@ require 'vendor/autoload.php';
 
 include 'config.php';
 $msg = "";
+$refno= generateKey();
 
+function generateKey(){
+    $keyLength=6;
+    $str="1234567890";
+    $randStr=substr(str_shuffle($str),0,$keyLength);
+    return$randStr;
+}
 if (isset($_POST['submit'])) {
     $fname = mysqli_real_escape_string($conn, $_POST['firstname']);
     $lname = mysqli_real_escape_string($conn, $_POST['lastname']);
@@ -26,10 +33,10 @@ if (isset($_POST['submit'])) {
     $taxid = mysqli_real_escape_string($conn, $_POST['tax_id']);
     $nationalid = mysqli_real_escape_string($conn, $_POST['nationalID']);
     $type = 2;
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $confirm_password = mysqli_real_escape_string($conn, $_POST['confirm-password']);
+    $password = mysqli_real_escape_string($conn, md5($_POST['password']));
+    $confirm_password = mysqli_real_escape_string($conn, md5($_POST['confirm-password']));
     $code = mysqli_real_escape_string($conn, md5(rand()));
-
+    
     // Validation checks
     if (
         empty($fname) || empty($lname) || empty($uname) || empty($email) || empty($address) ||
@@ -46,11 +53,7 @@ if (isset($_POST['submit'])) {
         $msg = "<div class='alert alert-danger'>Username should contain only letters and numbers.</div>";
     } elseif (!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
         $msg = "<div class='alert alert-danger'>Password should contain only letters and numbers.</div>";
-    } elseif ($password !== $confirm_password) {
-        $msg = "<div class='alert alert-danger'>Password and Confirm Password do not match.</div>";
     } else {
-        // Hash the password
-        $password = password_hash($password, PASSWORD_DEFAULT);
 
         if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM roles WHERE email='{$email}'")) > 0) {
             $msg = "<div class='alert alert-danger'>{$email} - This email address already exists.</div>";
@@ -95,7 +98,7 @@ if (isset($_POST['submit'])) {
                         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                     echo "</div>";
-                    $msg = "<div class='alert alert-info'>We've sent a verification link to your email address.</div>";
+                    $msg = "<div class='alert alert-info'>We've sent a verification link to your email address. Your Reference number is </div>";
                 } else {
                     $msg = "<div class='alert alert-danger'>Something went wrong.</div>";
                 }
