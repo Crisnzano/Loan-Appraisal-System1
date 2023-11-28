@@ -1,9 +1,9 @@
 <!-- Data for KPI1a: Top 5 selling products of the year-->
 <?php
-  $currentYear_top5LoanPlans = 2022;
+  $currentYear_top5LoanPlans = 2023;
   $monthlyCustomerRetention_target = 1300; //$salesPerProduct_target 
 
-  $currentYear_monthlyLoanRevenue = 2022; //currentYear_monthlySalesRevenue
+  $currentYear_monthlyLoanRevenue = 2023; //currentYear_monthlySalesRevenue
   $previousYear_monthlyLoanRevenue = $currentYear_monthlyLoanRevenue - 1; //previousYear_monthlySalesRevenue
   $monthlyLoanRevenue_target = 300000;
 

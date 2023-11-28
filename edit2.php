@@ -60,7 +60,8 @@
                                     </select>
                                     </div> 
                             <div class="form-group mb-3">
-                                <button type="submit" name="update_stud_data" class="btn btn-primary">Update Data</button>
+                                <button type="submit" name="update_stud_data" class="btn btn-primary">Update Data</button> &nbsp
+                                <button> <a href ="index.php?page=loans" type="submit" class="btn btn-primary">Go Back</a></button>
                             </div>
 
                         </form>

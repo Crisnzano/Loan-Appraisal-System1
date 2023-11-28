@@ -36,7 +36,7 @@ END$$
 DELIMITER ;
 
 -- Execute as: 
-CALL `Top5LoanPlansofTheYear`(2022);
+CALL `Top5LoanPlansofTheYear`(2023);
 
 
 -- KPI 1b: Year-on-Year Sales Revenue per Month
@@ -60,4 +60,4 @@ END$$
 DELIMITER ;
 
 -- Execute as: 
- CALL `ExpectedProfitPerMonth`(2022);
+ CALL `ExpectedProfitPerMonth`(2023);

@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
                         // Content
                         $mail->isHTML(true);                                  // Set email format to HTML
                         $mail->Subject = 'no reply';
-                        $mail->Body    = 'Here is the verification link .Your verification code is' .$code. '<b><a href="http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '">http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '</a></b>';
+                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '">http://localhost:81/loan_appraisal_system1/complete-login-register-form-with-email-verification-main/?verification=' . $code . '</a></b>';
 
                         $mail->send();
                         echo 'Message has been sent';
@@ -98,7 +98,7 @@ if (isset($_POST['submit'])) {
                         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                     echo "</div>";
-                    $msg = "<div class='alert alert-info'>We've sent a verification link to your email address. Your Reference number </div>" .$refno ;
+                    $msg = "<div class='alert alert-info'>We've sent a verification link to your email address.</div>";
                 } else {
                     $msg = "<div class='alert alert-danger'>Something went wrong.</div>";
                 }

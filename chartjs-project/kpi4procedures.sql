@@ -30,7 +30,7 @@ END$$
 DELIMITER ;
 
 -- Execute as: 
-CALL `ExpensesVsRevenue`(2022);
+CALL `ExpensesVsRevenue`(2023);
 
 
 -- KPI 1b: Year-on-Year Sales Revenue per Month
@@ -54,4 +54,4 @@ END$$
 DELIMITER ;
 
 -- Execute as: 
- CALL `ExpectedLossPerMonth`(2022);
+ CALL `ExpectedLossPerMonth`(2023);

@@ -102,7 +102,10 @@ if (isset($_SESSION['name'])) {
             <div>
 
                 <a href="loandetails2.php">
-                    <button type="button" class="btn btn-outline-primary">View Loan Details</button>
+                    <button type="button" class="btn btn-primary">View Loan Details</button>
+                </a>
+                <a href="../Loan_Appraisal_System1/chartjs-project2/index.php">
+                    <button type="button" class="btn btn-primary">Reports</button>
                 </a>
             </div>
         </div>
@@ -122,7 +125,7 @@ if (isset($_SESSION['name'])) {
                 <!-- Wrap the "Download PDF" button inside the form -->
                 <form action="" method="POST">
                     <input type="hidden" name="download_pdf" value="1">
-                    <button type="submit" class="btn btn-outline-primary">Download PDF</button>
+                    <button type="submit" class="btn btn-primary">Download PDF</button>
                 </form>
 
                     <table class="table table-hover">

@@ -1,13 +1,13 @@
 <?php
-use FPDF;
 
 // Load the pre-trained Keras model and scaler
-$modelFilename = 'C:/Users/Cris/loan_model.h5';  // Update with the actual path to your model
-$scalerFilename = 'C:/Users/Cris/scalers.pkl';  // Update with the actual path to your scaler
+require 'vendor/autoload.php'; // Include PHP-ML
 
-$model = load_model($modelFilename);
-$scaler = joblib_load($scalerFilename);
+use Phpml\ModelManager;
 
+// Load the pre-trained Keras model
+$modelManager = new ModelManager();
+$model = $modelManager->restoreFromFile('C:/Users/Cris/loan_model.phpml'); // Update with the actual path to your model
 // Function to make loan prediction
 function predictLoan($inputData) {
     // Perform any necessary data preprocessing (scaling, encoding, etc.)

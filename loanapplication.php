@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
          function generateKey3(){
             $keyLength=1;
-            $str="123456789";
+            $str="89";
             $randStr=substr(str_shuffle($str),0,$keyLength);
             return$randStr;
         }
