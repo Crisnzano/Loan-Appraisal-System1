@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $amount = htmlspecialchars($_POST['loan_amount']);
         $purpose= htmlspecialchars($_POST['purpose']);
         $refno= generateKey();
-        $clientID = generateKey2();
+        $clientID = "";
         $status=0;
         $loanID = generateKey3();
         $payee = htmlspecialchars($_POST['payee']);

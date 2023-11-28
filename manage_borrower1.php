@@ -106,7 +106,7 @@ if (isset($_POST['submit'])) {
             return $randStr;
         }
 
-        $clientid = generateKey3();
+        $clientid = "";
 
         $sql = "INSERT INTO roles (firstname, lastname, username,address, phonenumber, email, tax_id, password, type ) VALUES ('$firstname', '$lastname','$username','$address','$contact_no', '$email', '$tax_id', '$password','2')";
         $query = mysqli_query($conn, $sql);
