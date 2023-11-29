@@ -12,7 +12,7 @@
  
  <div class="full-page">
         <div class="navbar">
-            <div>
+            <div class="welcome">
                  <a href=''>
                 	<?php session_start();
                     if (!isset($_SESSION['SESSION_EMAIL'])) {
@@ -40,8 +40,16 @@
                 </ul>
             </nav>
         </div>
+        <div class="display">
+                    <h1 class="slide-left">Apply for your loan Today</h1>
+                    <p class ="slide-left">Apply for your loan and get 
+                    the best offers available.</p>
+                    <div class = "links slide-left">
+                        <a href ="loanapplication.php" class="buttons"> Apply Here</a>
+                        <a href ="mydetails.php"> View Loan Details Here</a>
+                </div>
+        </div>
     </div>
   
-</body>
 </body>
 </html>

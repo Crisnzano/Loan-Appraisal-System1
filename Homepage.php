@@ -46,6 +46,16 @@ if(isset($_SESSION['login_id']))
             </form>
             </div>
         </div>
+        <div class="display">
+                    <h1 class="slide-left">Apply for your loan Today</h1>
+                    <p class ="slide-left">Assess your credit worthiness of 
+                    receiving your loan using our machine learning 
+                    model.</p>
+                    <div class = "links slide-left">
+                        <a href ="../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/index.php" class="buttons"> Apply Here</a>
+                        <a href ="../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/index.php"> View Loan Details Here</a>
+                </div>
+        </div>
     </div>
   
 
