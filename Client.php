@@ -45,7 +45,7 @@
                     <p class ="slide-left">Apply for your loan and get 
                     the best offers available.</p>
                     <div class = "links slide-left">
-                        <a href ="loanapplication.php" class="buttons"> Apply Here</a>
+                        <a href ="loanapplication.php" class="buttons"> Apply Now</a>
                         <a href ="mydetails.php"> View Loan Details Here</a>
                 </div>
         </div>

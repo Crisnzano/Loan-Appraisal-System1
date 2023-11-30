@@ -1,5 +1,5 @@
 -- KPI1a: Top 5 selling products of the year
-
+DROP PROCEDURE IF EXISTS `ExpensesVsRevenue`;
 
 DELIMITER $$
 CREATE PROCEDURE `ExpensesVsRevenue`(IN currentYear INT)
@@ -18,9 +18,9 @@ SELECT
 FROM
     `loans`
         INNER JOIN
-    `loan_repayment` ON `loan_repayment`.`loanID` = `loans`.`loanID`
+    `loan_repayment` ON `loans`.`loanID` = `loan_repayment`.`loanID`
 WHERE
-    YEAR(`loan_repayment`.`repayment_start_date`) = currentYear
+    YEAR(`loan_repayment`.`repayment_start_date`) = 2022
         AND (`loans`.`loan_status` = '0'
         OR `loans`.`loan_status` = '2')
 GROUP BY `loans`.`loanID`

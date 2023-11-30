@@ -1,68 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-	<head>
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-		<title> Calculator</title>
+        h2 {
+            text-align: center;
+        }
 
-	</head>
+        p {
+            margin: 10px 0;
+        }
 
-	<body>
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-		<form method="POST" action="">
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
 
-			<h2>Calculator</h2>
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
 
-<?php
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
 
-$amount=$interest_rate=$period=NULL;
+<body>
+    <form method="POST" action="">
+        <h2>Calculator</h2>
 
-$total_interest=$total_payable=$monthly_payable=0;
+        <?php
+        $amount = $interest_rate = $period = NULL;
+        $total_interest = $total_payable = $monthly_payable = 0;
 
-if(isset($_POST['compute'])){
+        if (isset($_POST['compute'])) {
+            $amount = $_POST['amount'];
+            $interest_rate = $_POST['interest_rate'];
+            $period = $_POST['period'];
 
-	$amount=$_POST['amount'];
+            $total_interest = $amount * ($interest_rate / 100) * $period;
+            $total_payable = $total_interest + $amount;
+            $monthly_payable = $total_payable / $period;
+        }
+        ?>
 
-	$interest_rate=$_POST['interest_rate'];
+        <p>Loan Amount: <input type="text" name="amount" value="<?= $amount; ?>" /></p>
+        <p>Interest Rate: <input type="text" name="interest_rate" value="<?= $interest_rate; ?>" /></p>
+        <p>Payment Period: <input type="text" name="period" value="<?= $period; ?>" /></p>
+        <p><input type="submit" name="compute" value="Compute" /></p>
 
-	$period=$_POST['period'];
-
-	
-
-	$total_interest=$amount*($interest_rate/100)*$period;
-
-	$total_payable=$total_interest+$amount;
-
-	$monthly_payable=$total_payable/$period;
-
-}
-
-?>
-
-			<p>Loan Amount: <input type="text" name="amount" size="8" value="<?=$amount;?>"/></p>
-
-			<p>Interest Rate: <input type="text" name="interest_rate" size="8" value="<?=$interest_rate;?>"/></p>
-
-			<p>Payment Period: <input type="text" name="period" size="8" value="<?=$period;?>"/></p>
-
-			<p><input type="submit" name="compute" value="Compute"/></p>
-
-			<p>
-
-				Loan Amount: <?=number_format($amount, 2);?><br/>
-
-				Total Interest: <?=number_format($total_interest, 2);?><br/>
-
-				Total Payable: <?=number_format($total_payable, 2);?><br/>
-
-				Monthly Payable: <?=number_format($monthly_payable, 2);?>
-
-			</p>
-
-		</form>
-
-	</body>
+        <div class="result">
+            Loan Amount: <?= number_format($amount, 2); ?><br />
+            Total Interest: <?= number_format($total_interest, 2); ?><br />
+            Total Payable: <?= number_format($total_payable, 2); ?><br />
+            Monthly Payable: <?= number_format($monthly_payable, 2); ?>
+        </div>
+		<div>
+        <a href="index.php?page=loans">
+            <button type="button" class="btn">Go Back</button>
+        </a>
+            </div>
+    </form>
+</body>
 
 </html>
-

@@ -1,8 +1,10 @@
 -- KPI2a: Top 5 selling products of the year
 
+DROP PROCEDURE IF EXISTS `TopPerformingLoanType`;
 
 
 DELIMITER $$
+
 CREATE PROCEDURE `TopPerformingLoanType`(IN currentYear INT)
 BEGIN
 SELECT 

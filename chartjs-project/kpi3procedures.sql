@@ -1,6 +1,6 @@
 -- KPI1a: Top 5 selling products of the year
 
-
+DROP PROCEDURE IF EXISTS `LoanPlanbyRepaymentAmount`;
 DELIMITER $$
 CREATE PROCEDURE `LoanPlanbyRepaymentAmount`(IN currentYear INT)
 BEGIN
@@ -50,11 +50,11 @@ SELECT
 FROM
     `loans`
     INNER JOIN
-    `loan_repayment` ON `loan_repayment`.`planID`
+    `loan_repayment` ON `loans`.`planID` = `loan_repayment`.`planID`
 WHERE
     YEAR(`loan_repayment`.`repayment_start_date`) = 2022
         AND (`loans`.`loan_status` = '0'
-        OR `loans`.`loan_status` = '1')
+        OR `loans`.`loan_status` = '2')
 
 GROUP BY MONTHNAME(`loan_repayment`.`repayment_start_date`) , YEAR(`loan_repayment`.`repayment_start_date`)
 ORDER BY YEAR(`loan_repayment`.`repayment_start_date`) , MONTH(`loan_repayment`.`repayment_start_date`);

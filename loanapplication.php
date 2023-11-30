@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
          function generateKey3(){
             $keyLength=1;
-            $str="89";
+            $str="1234567890";
             $randStr=substr(str_shuffle($str),0,$keyLength);
             return$randStr;
         }
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $amount = htmlspecialchars($_POST['loan_amount']);
         $purpose= htmlspecialchars($_POST['purpose']);
         $refno= generateKey();
-        $clientID = "";
+        $clientID = generateKey2();
         $status=0;
         $loanID = generateKey3();
         $payee = htmlspecialchars($_POST['payee']);
@@ -201,7 +201,7 @@ function test_input($data) {
           <p>Agree to terms and conditions</p>
        </div> 
       
-      <div class="inputfield" ><a href="http://localhost:8501">
+      <div class="inputfield" ><a href="../Loan_Appraisal_System1/API/api.php">
                 <button type="button" class="btn">Want to check if you are eligible for your loan? Click here </button></a>
             </div>
 

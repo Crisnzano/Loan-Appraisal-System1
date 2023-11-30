@@ -99,7 +99,7 @@
     die("Connection failed: " . $conn->connect_error);
   }
   
-  $sql = "CALL `ExpectedProfitPerMonth`(2022);";
+  $sql = "CALL `ExpectedProfitPerMonth`(2023);";
   $result = $conn->query($sql);
 
   if ($result->num_rows > 0) {
