@@ -161,11 +161,11 @@ if (isset($_POST['submit'])) {
                                 value="<?php if (isset($_POST['submit'])) {echo $email;} ?>" required>
                             <input type="text" class="name" name="address" placeholder="Enter Your Address"
                                 value="<?php if (isset($_POST['submit'])) {echo $address;} ?>" required>
-                            <input type="text" class="name" name="phonenumber" placeholder="Enter Your Phone number"
+                            <input type="number" class="name" name="phonenumber" placeholder="Enter Your Phone number"
                                 value="<?php if (isset($_POST['submit'])) {echo $phone;} ?>" required>
-                            <input type="text" class="name" name="tax_id" placeholder="Enter Your Tax ID"
+                            <input type="number" class="name" name="tax_id" placeholder="Enter Your Tax ID"
                                 value="<?php if (isset($_POST['submit'])) {echo $taxid;} ?>" required>
-                            <input type="text" class="name" name="nationalID" placeholder="Enter Your ID number"
+                            <input type="number" class="name" name="nationalID" placeholder="Enter Your ID number"
                                 value="<?php if (isset($_POST['submit'])) {echo $nationalid;} ?>" required>
                             <input type="password" class="password" name="password"
                                 placeholder="Enter Your Password" required>

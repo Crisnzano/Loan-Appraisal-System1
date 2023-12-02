@@ -164,43 +164,43 @@ if (isset($_POST['submit'])) {
                 <?php endif; ?>
                 <div class="inputfield">
                     <label>First Name</label>
-                    <input type="text" class="input" name="firstname">
+                    <input type="text" class="input" name="firstname" required>
                 </div>
                 <div class="inputfield">
                     <label>Last Name</label>
-                    <input type="text" class="input" name="lastname">
+                    <input type="text" class="input" name="lastname" required>
                 </div>
                 <div class="inputfield">
                     <label>Username</label>
-                    <input type="text" class="input" name="username">
+                    <input type="text" class="input" name="username"required>
                 </div>
                 <div class="inputfield">
                     <label>Password</label>
-                    <input type="password" class="input" name="password">
+                    <input type="password" class="input" name="password" required>
                 </div>
                 <div class="inputfield">
                     <label>Confirm Password</label>
-                    <input type="password" class="input" name="confirm_password">
+                    <input type="password" class="input" name="confirm_password" required>
                 </div>
                 <div class="inputfield">
                     <label>Address</label>
-                    <input type="text" class="input" name="address">
+                    <input type="text" class="input" name="address" required>
                 </div>
                 <div class="inputfield">
                     <label>Phone Number</label>
-                    <input type="number" class="input" name="contact_no">
+                    <input type="number" class="input" name="contact_no" required>
                 </div>
                 <div class="inputfield">
                     <label>Email</label>
-                    <input type="text" class="input" name="email">
+                    <input type="text" class="input" name="email" required>
                 </div>
                 <div class="inputfield">
                     <label>Tax ID</label>
-                    <input type="text" class="input" name="tax_id">
+                    <input type="text" class="input" name="tax_id" required>
                 </div>
                 <div class="inputfield">
                     <label>National ID</label>
-                    <input type="number" class="input" name="national_id">
+                    <input type="number" class="input" name="national_id" required>
                 </div>
                 <div class="inputfield terms">
                     <label class="check">

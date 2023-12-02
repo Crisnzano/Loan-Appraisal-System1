@@ -4,12 +4,7 @@
 session_start();
 
 include('db_connect.php');
-if(isset($_GET['name'])){
-$qry = $conn->query("SELECT * FROM roles where username = ".$_GET['username']);
-foreach($qry->fetch_array() as $k => $v){
-	$$k = $v;
-}
-}
+
 $msg = "";
 // Define error variables
 $payeeErr = $loanAmountErr = $repaymentAmountErr = "";
@@ -36,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    // Validate Repayment Amount
    if (empty($_POST['repayment_amount'])) {
     $repaymentAmountErr = "Repayment Amount is required";
-} else {
+  } else {
   $repayment_amount = test_input($_POST['repayment_amount']);
-}
+  }
  // If all inputs are valid, you can proceed to save the data to the database
  if (empty($payeeErr) && empty($loanAmountErr) && empty($repaymentAmountErr)) {
   mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

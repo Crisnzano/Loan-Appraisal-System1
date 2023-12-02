@@ -3,7 +3,7 @@
 	include'db_connect.php';
 
 	function generateKey3(){
-		$keyLength=1;
+		$keyLength=2;
 		$str="123456789";
 		$randStr=substr(str_shuffle($str),0,$keyLength);
 		return$randStr;
