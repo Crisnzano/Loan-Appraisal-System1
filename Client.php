@@ -16,7 +16,7 @@
                  <a href=''>
                 	<?php session_start();
                     if (!isset($_SESSION['SESSION_EMAIL'])) {
-                    header("Location:../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/index.php ");
+                    header("Location:complete-login-register-form-with-email-verification-main/index.php ");
                     die();
                     }
                     include('./db_connect.php');
@@ -36,7 +36,7 @@
                     <li><a href='Client.php'>Home</a></li>
                     <li><a href='mydetails.php'>My Details</a></li>
                     <li><a href='loanapplication.php'>Apply For Loan</a></li>
-                    <li><a href="../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/logout.php"><button type='button' class='toggle-btn'>Logout</button></a></li>
+                    <li><a href="complete-login-register-form-with-email-verification-main/logout.php"><button type='button' class='toggle-btn'>Logout</button></a></li>
                 </ul>
             </nav>
         </div>

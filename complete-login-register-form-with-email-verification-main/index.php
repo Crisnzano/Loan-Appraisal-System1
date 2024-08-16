@@ -1,4 +1,3 @@
-<!-- Code by Brave Coder - https://youtube.com/BraveCoder -->
 
 <?php
     session_start();

@@ -27,7 +27,7 @@
                 <div class="skill">
                   <div class="title">Loan Application</div>
                   <div class="progress">
-                    <div class="Loan Application"><span>90%</span></div>
+                    <div class="progress-bar p2"><span>90%</span></div>
                   </div>
                 </div>
 

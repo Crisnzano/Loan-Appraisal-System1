@@ -1,7 +1,7 @@
 <?php
 
-require_once '../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/vendor/autoload.php'; // Include Composer's autoloader
-require_once '../Loan_Appraisal_System1/complete-login-register-form-with-email-verification-main/vendor/tecnickcom/tcpdf/tcpdf.php'; // Include TCPDF
+require_once 'complete-login-register-form-with-email-verification-main/vendor/autoload.php'; // Include Composer's autoloader
+require_once 'complete-login-register-form-with-email-verification-main/vendor/tecnickcom/tcpdf/tcpdf.php'; // Include TCPDF
 
 // Function to generate the PDF report
 function generatePDF($data) {
