@@ -1,5 +1,6 @@
 {
     "require": {
-        "php-ai/php-ml": "*"
+        "php-ai/php-ml": "*",
+        "tecnickcom/tcpdf": "*"
     }
 }

@@ -3,6 +3,8 @@
 require_once 'complete-login-register-form-with-email-verification-main/vendor/autoload.php'; // Include Composer's autoloader
 require_once 'complete-login-register-form-with-email-verification-main/vendor/tecnickcom/tcpdf/tcpdf.php'; // Include TCPDF
 
+require_once 'complete-login-register-form-with-email-verification-main/vendor/autoload.php';
+
 // Function to generate the PDF report
 function generatePDF($data) {
     // Create a new PDF document

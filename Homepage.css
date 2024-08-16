@@ -57,11 +57,11 @@ nav ul li button
 }
 nav ul li button:hover
 {
-    color: aqua;
+    color: #00c16e;
 }
 nav ul li a:hover
 {
-    color: aqua;
+    color: #00c16e;
 }
 a
 {

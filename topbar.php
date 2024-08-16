@@ -21,7 +21,7 @@
         <large><b>Loan Appraisal System</b></large>
       </div>
 	  	<div class="col-md-2 float-right text-white">
-	  		<a href="ajax.php?action=logout" class="text-white"><?php echo $_SESSION['username'] ?> <i class="fa fa-power-off"></i></a>
+	  		<a href="complete-login-register-form-with-email-verification-main/logout.php" class="text-white"><?php echo $_SESSION['username'] ?> <i class="fa fa-power-off"></i></a>
 	    </div>
     </div>
   </div>
